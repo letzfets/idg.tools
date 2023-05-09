@@ -1,0 +1,17 @@
+{
+  "name": "csv_translate",
+  "version": "1.0.0",
+  "description": "Translates a csv file via google translate",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Arnold Knott",
+  "license": "MIT",
+  "dependencies": {
+    "translate-google": "^1.5.0"
+  }
+}
