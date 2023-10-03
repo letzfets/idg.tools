@@ -1,19 +1,25 @@
-import { error } from '@sveltejs/kit'
+import { error, redirect } from '@sveltejs/kit'
 import { getContent, getSupportedLocales } from '$lib/content-backend'
-import type { PageServerLoad } from './$types'
+import type { EntryGenerator, PageServerLoad } from './$types'
+import { getRawLocale, getRedirectURL } from '$shared/utils'
 
-// TODO: Figure out a way to prerender the localised routes.
-// We have all content so we should be able to solve this if we either render all available locales and link to the content
-// or if we provide the routes that should be prerendered.
-export const prerender = false
+const supportedLocales = getSupportedLocales()
 
-export const load = (async ({ params }) => {
-    // TODO: Get the user's preferred content locale via the `Accept-Language` HTTP header
-    // TODO: If the current locale is not found, redirect to a locale that does exist.
-    // Make sure to make the proper redirect to prevent dead/duplicate content links
-    // Build this into getLocale() so it happens automatically
+export const entries = (() =>
+    Object.keys(supportedLocales).map((locale) => ({ locale }))) satisfies EntryGenerator
+
+export const prerender = 'auto'
+
+export const load = (async ({ params, url }) => {
+    const rawLocale = getRawLocale(url.pathname)
+    const redirectURL = getRedirectURL(url.pathname, rawLocale)
+
+    if (url.pathname !== redirectURL) {
+        throw redirect(301, redirectURL)
+    }
+
+    // IDEA: Get the user's preferred content locale via the `Accept-Language` HTTP header
     const content = getContent(params.locale)
-    const supportedLocales = getSupportedLocales()
 
     if (content && supportedLocales) {
         const { skills, dimensions } = content

@@ -27,20 +27,47 @@ export const IDG_CMS_LINK = 'https://cms.idg.community'
  * Add it in the CMS, which saves a JSON file with constants
  *
  * NOTE: For now, we can create instructions on how to add a new language
+ *
+ * Use this list to find native names: https://en.wikipedia.org/wiki/List_of_language_names
+ *
+ * NOTE: These should be sorted in order with the highest number of speakers at the top.
  */
 export const LOCALES = {
     en: 'English',
+    zh: '中文',
+    hi: 'हिन्दी',
     es: 'Español',
+    fr: 'Français',
+    ar: 'لعربية',
+    bn: 'বাংলা ',
     'pt-BR': 'Português (Brazil)',
     pt: 'Português',
-    fr: 'Français',
+    ru: 'Русский',
+    ur: 'اُردُو',
+    id: 'Bahasa Indonesia',
     de: 'Deutsch',
-    nl: 'Nederlands',
+    ja: '日本',
+    te: 'తెలుగు',
+    tr: 'Türkçe',
+    ta: 'தமிழ்',
+    ko: '한국어',
     it: 'Italiano',
-    jp: '日本 (Japanese)',
-    dk: 'Dansk',
+    nl: 'Nederlands',
     sv: 'Svenska',
+    dk: 'Dansk',
+    fi: 'Suomi',
 }
+
+export const LOCALE_DIRECTIONS: Record<Locale, 'rtl' | 'ltr'> = (
+    Object.keys(LOCALES) as Locale[]
+).reduce(
+    (result, locale) => {
+        const RTL_LOCALES = ['ar', 'ur']
+        result[locale] = RTL_LOCALES.includes(locale) ? 'rtl' : 'ltr'
+        return result
+    },
+    {} as unknown as Record<Locale, 'rtl' | 'ltr'>,
+)
 
 export const LOCALE_IDENTIFIERS = Object.keys(LOCALES) as Locale[]
 export const DEFAULT_LOCALE_IDENTIFIER = 'en'

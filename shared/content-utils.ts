@@ -1,4 +1,4 @@
-import { DEFAULT_LOCALE_IDENTIFIER, LOCALE_IDENTIFIERS } from './constants'
+import { DEFAULT_LOCALE_IDENTIFIER, LOCALE_DIRECTIONS, LOCALE_IDENTIFIERS } from './constants'
 import type {
     Dimension,
     ToolsContent,
@@ -13,8 +13,25 @@ import type {
     Locale,
 } from './types'
 
-export const getLocale = (locale?: string) =>
-    LOCALE_IDENTIFIERS.includes(locale as Locale) ? (locale as Locale) : DEFAULT_LOCALE_IDENTIFIER
+export const getLocale = (locale?: string) => {
+    const _locale = LOCALE_IDENTIFIERS.find(
+        (l) => l.toLowerCase() === (locale?.toLowerCase() as Locale),
+    )
+
+    if (_locale) return _locale
+
+    const withUnderscore = LOCALE_IDENTIFIERS.find(
+        (l) =>
+            l.toLowerCase().replace('-', '_') ===
+            (locale?.toLowerCase().replace('-', '_') as Locale),
+    )
+
+    if (withUnderscore) return withUnderscore
+
+    return DEFAULT_LOCALE_IDENTIFIER
+}
+
+export const getHTMLDirection = (locale: Locale) => LOCALE_DIRECTIONS[locale] ?? 'ltr'
 
 export const getDimension = (id: Dimension['id'], { dimensions }: Pick<AllContent, 'dimensions'>) =>
     dimensions.find((c) => c.id === id) as Dimension
@@ -47,7 +64,7 @@ export const getContributor = (
  * With the third case, we get built-in support for short URLs. Not that easy to type, but at least they are few characters.
  */
 export const getToolByLink = (link: Tool['link'], { tools }: Pick<AllContent, 'tools'>) =>
-    tools.find((t) => t.link === link || link.endsWith(t.slug)) as Tool
+    tools.find((t) => link.endsWith(t.slug)) as Tool
 
 /**
  * By supporting backwards compatible links that end with a `cuid.slug()`,
@@ -61,7 +78,7 @@ export const getToolByLink = (link: Tool['link'], { tools }: Pick<AllContent, 't
 export const getStoryByLink = (
     link: Story['link'],
     { stories }: Pick<CommunityContent, 'stories'>,
-) => stories.find((t) => t.link === link || link.endsWith(t.slug)) as Story
+) => stories.find((t) => link.endsWith(t.slug)) as Story
 
 /**
  * Given a specific story, get the next story before and after.

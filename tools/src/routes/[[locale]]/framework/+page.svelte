@@ -32,47 +32,7 @@
 
 <Meta title="IDG Framework" description="The 5 dimensions with the 23 skills and qualities" />
 
-<Svelvet width={600} height={800} id="idg-framework" TD controls fitView>
-    {#each $dimensions as dimension, i (dimension.name)}
-        <!-- {@const dimensionSlug = getDimensionSlug(dimension.id)} -->
-        <Node
-            borderRadius={9999}
-            bgColor="#{getRGBColor(dimension.id).slice(1)}"
-            width={200}
-            height={200}
-            label={dimension.name}
-            textColor="black"
-            position={{ x: i * 750 + 40 * dimension.skills.length, y: 0 }}
-            id={dimension.id}
-            connections={dimension.skills}
-            inputs={0}
-            editable={false}
-            outputs={dimension.skills.length}
-            on:nodeClicked={() => {
-                console.log('click', dimension.name)
-            }}
-        />
-
-        {#each getSkillsInDimension(dimension.id, { skills: $skills }) as skill, j (skill.name)}
-            <Node
-                borderRadius={9999}
-                bgColor="#{getRGBColor(dimension.id).slice(1)}"
-                width={100}
-                height={100}
-                editable={false}
-                label={skill.name}
-                textColor="black"
-                position={{ x: i * 750 + j * 125, y: 400 }}
-                id={skill.id}
-                connections={[dimension.id]}
-                inputs={1}
-                outputs={0}
-            />
-        {/each}
-    {/each}
-</Svelvet>
-
-<!-- <div class="min-h-[700px] bg-white relative pb-16 max-w-xs mx-auto">
+<div class="min-h-[700px] bg-white relative mb-16 max-w-lg mx-auto">
     {#key $dimensions}
         {#if $dimensions}
             <div class="text-base h-full">
@@ -112,7 +72,7 @@
                             {@const dimensionSlug = getDimensionSlug(dimension.id)}
                             {@const bgColor = getColor(dimension.id, 'bg')}
                             {@const textColor = getColor(dimension.id, 'text')}
-                            <TabPanel class={cx('w-full max-w-md grid text-white', bgColor)}>
+                            <TabPanel class={cx('w-full grid text-white', bgColor)}>
                                 <Heading size={2} class="p-4 pb-1 break-words hyphens-auto"
                                     >{i + 1}. {dimension.name}</Heading
                                 >
@@ -128,7 +88,7 @@
                                         <Disclosure class="grid" let:open>
                                             <DisclosureButton
                                                 class={cx(
-                                                    'p-2 flex gap-2 items-center hover:bg-white hover:text-black text-left group drop-shadow-xl max-w-xs',
+                                                    'p-2 flex gap-2 items-center hover:bg-white hover:text-black text-left group drop-shadow-xl',
                                                     `hover:outline hover:outline-${dimensionSlug} hover:outline-1 hover:-outline-offset-1`,
                                                     bgColor,
                                                 )}
@@ -147,26 +107,26 @@
                                                     )}
                                                 />
                                             </DisclosureButton>
-                                            <DisclosurePanel class="bg-white max-w-xs">
+                                            <DisclosurePanel class="bg-white px-4">
                                                 <Heading
                                                     size={2}
                                                     class={cx(
-                                                        'p-4 break-words hyphens-auto',
+                                                        'py-4 break-words hyphens-auto',
                                                         textColor,
                                                     )}>{skill.name}</Heading
                                                 >
                                                 <div
                                                     class={cx(
-                                                        'mx-4 p-2 rounded-lg aspect-square flex items-center justify-center',
+                                                        'rounded-lg aspect-square max-w-xs mx-auto flex items-center justify-center',
                                                         bgColor,
                                                     )}
                                                 >
                                                     <IDGSymbol
                                                         slug={dimensionSlug}
-                                                        class="pointer-events-none w-36 h-36 my-4 mx-auto text-white"
+                                                        class="pointer-events-none w-36 h-36 text-white"
                                                     />
                                                 </div>
-                                                <p class="p-4 text-black">{skill.description}</p>
+                                                <p class="py-4 text-black">{skill.description}</p>
                                             </DisclosurePanel>
                                         </Disclosure>
                                     {/each}
@@ -178,4 +138,5 @@
             </div>
         {/if}
     {/key}
-</div> -->
+</div>
+ -->

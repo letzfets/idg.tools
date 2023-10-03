@@ -10,10 +10,10 @@ type Item = {
 
 export type Skill = Item & {
     dimension: ItemId
+    questions: string[]
 }
 
 export type Dimension = Item & {
-    color: string
     subtitle: string
     skills: Skill['id'][]
 }
