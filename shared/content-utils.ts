@@ -1,4 +1,10 @@
-import { DEFAULT_LOCALE_IDENTIFIER, LOCALE_DIRECTIONS, LOCALE_IDENTIFIERS } from './constants'
+import {
+    COLORS,
+    DEFAULT_LOCALE_IDENTIFIER,
+    IDG_COLORS_RGB,
+    LOCALE_DIRECTIONS,
+    LOCALE_IDENTIFIERS,
+} from './constants'
 import type {
     Dimension,
     ToolsContent,
@@ -11,6 +17,7 @@ import type {
     FeaturedContent,
     AllContent,
     Locale,
+    DimensionSlug,
 } from './types'
 
 export const getLocale = (locale?: string) => {
@@ -35,6 +42,16 @@ export const getHTMLDirection = (locale: Locale) => LOCALE_DIRECTIONS[locale] ??
 
 export const getDimension = (id: Dimension['id'], { dimensions }: Pick<AllContent, 'dimensions'>) =>
     dimensions.find((c) => c.id === id) as Dimension
+
+export const getDimensionIndexBySlug = (slug: DimensionSlug) =>
+    Object.keys(IDG_COLORS_RGB).findIndex((dimensionSlug) => dimensionSlug === slug)
+
+export const getDimensionSlug = (id: Dimension['id'] | Skill['id']) => COLORS[id] as DimensionSlug
+
+export const parseDimensionSlug = (slug: string) =>
+    IDG_COLORS_RGB[slug.toLowerCase()] !== undefined
+        ? (slug.toLowerCase() as DimensionSlug)
+        : undefined
 
 export const getSkill = (id: Skill['id'], { skills }: Pick<AllContent, 'skills'>) =>
     skills.find((s) => s.id === id) as Skill

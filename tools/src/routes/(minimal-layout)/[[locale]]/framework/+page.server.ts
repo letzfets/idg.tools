@@ -15,7 +15,7 @@ export const load = (async ({ params, url }) => {
     const redirectURL = getRedirectURL(url.pathname, rawLocale)
 
     if (url.pathname !== redirectURL) {
-        throw redirect(301, redirectURL)
+        throw redirect(302, redirectURL)
     }
 
     // IDEA: Get the user's preferred content locale via the `Accept-Language` HTTP header

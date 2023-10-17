@@ -78,13 +78,10 @@ export type IDGRelevancy = {
     score: number
 }
 
+export type DimensionSlug = 'being' | 'thinking' | 'relating' | 'collaborating' | 'acting'
+
 export type IDGColorMap = {
-    [id: Dimension['id'] | Skill['id']]:
-        | 'being'
-        | 'thinking'
-        | 'relating'
-        | 'collaborating'
-        | 'acting'
+    [id: Dimension['id'] | Skill['id']]: DimensionSlug
 }
 
 export type Tag = { id: ItemId; name: string }
@@ -97,3 +94,5 @@ export type Localised<T> = Partial<Record<Locale, T>>
 // export type SupportedLocales = Partial<Record<Locale, string>>
 // export type SupportedLocales = Localised<string>
 export type SupportedLocales = Partial<typeof LOCALES>
+
+export type IDGSymbols = Record<Skill['id'] | Dimension['id'], string[]>

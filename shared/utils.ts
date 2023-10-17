@@ -19,7 +19,8 @@ export const getColor = (id: Dimension['id'] | Skill['id'], colorType: 'bg' | 't
     return `${colorType}-${COLORS[id]}`
 }
 
-export const getDimensionSlug = (id: Dimension['id'] | Skill['id']) => COLORS[id]
+export const randomInt = (min: number, max: number) =>
+    Math.floor(Math.random() * (max - min + 1) + min)
 
 export const getRGBColor = (id: Dimension['id'] | Skill['id']) => IDG_COLORS_RGB[COLORS[id]]
 
@@ -87,7 +88,16 @@ export const removeLeadingSlash = (string: string) => string.replace(/^\//, '')
 export const getCurrentLocale = (path: string) =>
     LOCALE_IDENTIFIERS.find((identifier) => new RegExp(`^\/${identifier}\/`, 'i').test(path))
 
-export const getRawLocale = (path: string) => path.match(/^\/([\w-]+)\//)?.[1]
+/**
+ * Extract the raw unparsed locale from an URL
+ * @param path The raw URL
+ * @param basepath Send in the expected base path to avoid
+ */
+export const getRawLocale = (path: string, basepath?: string) =>
+    basepath
+        ? // IDEA: This could be solved in one operation by creating the RegExp from a string template instead
+          path.replace(basepath, '').match(/^\/([\w-]+)\//)?.[1]
+        : path.match(/^\/([\w-]+)\//)?.[1]
 
 export const getRedirectURL = (path: string, rawLocale?: string) => {
     if (!rawLocale) return path
@@ -149,3 +159,16 @@ Cases:
 - /
 
 */
+
+/**
+ * Workaround for https://github.com/sveltejs/svelte/issues/3105
+ */
+export const bodyClass = (node: HTMLBodyElement, className: string) => {
+    node.classList.add(className)
+
+    return {
+        destroy() {
+            node.classList.remove(className)
+        },
+    }
+}
